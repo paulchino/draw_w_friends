@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+
+
+<script src="./javascript/app.js"></script>
+
+
+<style type="text/css">
+
+#sketch {
+	display: inline-block;
+}
+
+canvas {
+	border: solid #ccc 1px;
+}
+
+#paint {
+	/*cursor: url("./images/cursor-eraser.png"), auto;*/
+	/*cursor: crosshair;*/
+}
+
+#online {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.text-box {
+	border: solid black 3px;
+	border-radius: 7px;
+	height: 300px;
+	overflow-y: scroll;
+	margin-bottom: 15px;
+
+}
+
+.green {
+	color: green;
+}
+
+.red {
+	color: red;
+}
+
+</style>
+
+</head>
+	<body>	
+		<div id="sketch">
+			<canvas id="paint" width='500' height='300'></canvas>
+		</div>
+
+		<div id="online">
+			<p>Users Online</p>
+			<ol>
+			</ol>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<button type="button" id='restart' class='btn btn-primary btn-md'>Start Over</button>
+				<button type="button" id='eraser' class='btn btn-primary btn-md' value='Eraser'>Eraser</button>
+				<input type='color' id='color' >
+				Line Thickness 
+				<select id='thick'>
+					<option value='1'>1</option>
+					<option value='2'>2</option>
+					<option selected='selected' value='3'>3</option>
+					<option value='4'>4</option>
+					<option value='5'>5</option>
+				</select>
+			</div>
+		</div>
+
+
+		<!-- Modal on site load -->
+		<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Please Select Room and Enter Name</h4>
+      				</div>
+      				<div class="modal-body">
+				      	<form id='enter-form'>
+				  			<div class="form-group">
+				    			<label for="Name">Enter Name</label>
+				    			<input type="text" name='name' class="form-control" id="username" placeholder="Enter Name">
+				  			</div>
+				  			<select name ='room' class="form-control">
+				  				<option value='room1'>Room 1</option>
+				  				<option value='room2'>Room 2</option>
+								<option value='room3'>Room 3</option>
+							</select>
+				  			<button type="submit" class="btn btn-default">Enter</button>
+						</form>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		<!-- end of modal -->
+
+		<div class='row'>
+			<button type="button" id='save' class="btn btn-primary btn-md">Save Drawing</button>
+		</div>
+
+		<!-- Modal for save drawing -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Draw with Friends - Send to your Friends</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<p>Body of the Modal</p>
+		      	<img id='save_img' alt="Dojo Image" />
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- End of Modal -->
+
+
+		<div class='row'>
+			<div class='col-md-12'>
+				<h2 class='header'>group chat - <span></span></h2>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<h5 class='user-name green'></h5>
+<!-- All messages added here  -->
+				<div class='text-box'>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='mess-box'>
+					<form id='form' action='/send_chat' method='post'>
+						<div class='form-group'>
+							<label for="Message">Message</label>
+							 <input type="text" class="form-control chat" name='chat' placeholder="Enter Your Message Here">
+							<input class='btn' type='submit' value='send'>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
