@@ -1,0 +1,33 @@
+server side
+
+//get it so when a user clicks a button.
+console.log('name clicked button')
+
+var users = [];
+(id, name, room)
+
+1. Sever side obtains the info and pushes the info to an array
+	a. all the other users currently online must be sent to back to client side
+
+
+
+
+
+
+client side
+var instances = [ ]
+
+
+1. on log on name, id and room number is emitted to the server
+	a. An new instance is created new User(data) and pushed to the instance array
+
+function User(data) {
+	this.id = data.id;
+	this.name = data.name;
+	this.room = data.room;
+}
+
+	var id = new Ni
+
+
+

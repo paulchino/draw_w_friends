@@ -1,92 +1,25 @@
-Group chat Feature
+Group Chat
 
-On chat upload
-- ask for name and select room
-- On popup model save the name and the room on form submit and send to server
+METHOD TO ALLOW ONLY ONE PERSON TO DRAW AT A TIME
 
-How to get the existing lines uploaded for a new user
-
-
-function serialize(canvas) {
-    return canvas.toDataURL();
-}
-
-function deserialize(data, canvas) {
-    var img = new Image();
-    img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext("2d").drawImage(img, 0, 0);
-    };
-
-    img.src = data;
-}
-
-1. The server listens for a new connection
-2. When a new connection occurs an emit to the clients asks for the deserialized string.
-3. The 
+- Client side does the action. draw, erase, reset
+- Sever side ONLY handles data! Flag to notify users that someone is drawing
 
 
-
-on load, want user to show what has been drawn
-
-
-
-features/Notes
-1. When a user updates his brush settings an emit is sent to update to all other users
-
-2. When a user logs, the existing brush strokes from the other users must be displayed. Needs to be a way to save the canvas with all the brush strokes
-
-3. Group chat. Save the db?
+The info the server has
+1. users = [] ====> an array of users. Updated when people sign on or off
 
 
+2. user_info = []  ====> info of users 
+	a. user_id
+	b. name
+	c. room 
+
+3. drawer = user_id ===> shows who is taking the drawing
+
+3. chats = []
+
+4. canvas_free => set to true or false based on user click
 
 
-What is required to show strokes on other users
-- each user
-	var el = document.getElementById('paint')
-	var ctx = el.getContect('2d');
-
-
-Each user has a socket ID
-When a new user connects have a contructor create a new object
-
-
-Server Side
-On socket connection 
-//send to everyone
-io.emit('create_user', {id:socket.id, name: name });
-
-Client Side
-io.sockets.on('create_user', function(user) {
-	//create a new Object
-	var user.id = new User(user.name, user.id, ___ some other stuff);
-
-})
-
-
-
-
-Client Side
-function User(name, id, ___what else needs to be sent) {
-	//these variables are private. Bound to new object
-
-	var el = document.getElementById('paint');
-	var ctx = el.getContext('2d');
-	var isDrawing;
-	var penCol = 'black';
-	var lineWidth = 6;
-	
-	this.name = name;
-	this.id = id;
-
-	this.lineWidth = __;
-	this.penCol = __;
-
-
-	//
-	various methods to update the coord and brush properties
-}
-
-
-
+on mouse down send an emit to 

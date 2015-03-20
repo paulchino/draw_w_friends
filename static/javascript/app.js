@@ -1,5 +1,8 @@
 //---------- function to get existing drawings for a new user
 
+//----Global Array
+var instances = [];
+
 function serialize(canvas) {
 	return canvas.toDataURL()
 }
@@ -14,6 +17,13 @@ function deserialize(data, canvas) {
 	img.src = data;
 }
 
+//Creating user class
+function User(data) {
+	this.id = data.id;
+	this.name = data.name;
+	this.room = data.room;
+}
+
 $(window).load(function() {
 	$('#popupModal').modal('show');
 });
@@ -22,10 +32,39 @@ $(document).ready(function() {
 	var name, room, user_id;
 	var socket = io.connect();
 
-	socket.on('socket_id', function(data) {
+	socket.on('own_id', function(data) {
 		user_id = data.id;
 	})
 
+//---------- OPP for users
+	//recieve the full users array
+	socket.on('full_list_obj', function(data) {
+		console.log('full array');
+		//console.log(data.list_obj);
+		for(var i=0;i<data.list_obj.length; i++) {
+
+			instances.push(new User(data.list_obj[i]));
+		}
+		console.log(instances);
+	})
+
+	socket.on('new_user_obj', function(data) {
+		console.log('the new user');
+		console.log(data);
+		instances.push(new User(data));
+		console.log(instances);
+	})
+
+	socket.on('splice_user', function(data) {
+		for (var i=0; i<instances.length; i++) {
+			if (data.id == instances[i].id) {
+				instances.splice(i, 1);
+				console.log(instances);
+			}
+		}
+	})
+
+//------------- 
 	socket.on('get_messages', function(data) {
 		var strMess = '';
 		for(var i = data.chats.length-1; i>=0; i--) {
@@ -36,11 +75,11 @@ $(document).ready(function() {
 
 //---------- Updates the list of people online and on in chatbox
 	socket.on('update_list', function(data) {
-		console.log('Logged on users');
+		//console.log('Logged on users');
 		$('#online ol').empty();
 		for(var i = 0; i < data.user_info.length; i++) {
 			$('#online ol').append("<li>" + data.user_info[i].name + "</li>");
-			console.log(data.user_info[i].name);
+			//console.log(data.user_info[i].name);
 		}
 	})
 
@@ -54,6 +93,7 @@ $(document).ready(function() {
 		// $('.header span').html(room);
 		$('#popupModal').modal('hide');
 		socket.emit('got_a_new_user', {id: user_id, name: name, room: room});
+
 		return false;
 	})
 
@@ -62,7 +102,6 @@ $(document).ready(function() {
 		$('.text-box').prepend(data.append_user);
 	})
 
-
 //----------- For users that join after drawing begins
 	socket.on('get_drawing', function() {
 		var img_code = serialize(el);
@@ -70,24 +109,12 @@ $(document).ready(function() {
 	})
 
 	socket.on('insert_drawing', function(data) {
-		console.log(data.img);
+		//console.log(data.img);
 		deserialize(data.img, el);
 	})
 
 //------------
-	socket.on('draw_begin', function(data) {
-		console.log(data);
-		ctx.beginPath();
-		ctx.lineWidth = data.width;
-		ctx.strokeStyle = data.color;
-		ctx.moveTo(data.x, data.y);
-
-		socket.on('line', function(data) {
-			ctx.lineTo(data.x, data.y);
-			ctx.stroke();
-		})
-	})
-
+	
 	socket.on('del_all', function() {
 		ctx.clearRect(0, 0, el.width, el.height );
 		ctx.beginPath();
@@ -103,38 +130,72 @@ $(document).ready(function() {
 	var isDrawing;
 	var penCol;
 	var lineWidth;
+	var drawer;
 
-	//when mouse is clicked 
+
 	el.onmousedown = function(e) {
-  	isDrawing = true;
-  	ctx.beginPath();
-  	ctx.lineWidth = lineWidth || 6;
-  	ctx.strokeStyle = penCol || 'black';
-  	ctx.stroke();
-  	//initial point
-  	ctx.moveTo(e.clientX, e.clientY);
+	  	isDrawing = true;
+	  	//ctx.beginPath();
+	  	ctx.lineWidth = lineWidth || 6;
+	  	ctx.strokeStyle = penCol || 'black';
+	  	//ctx.stroke();
+	  	//ctx.moveTo(e.clientX, e.clientY);
 
-  	//emits the 
-  	socket.emit("mouse_down", {id: user_id, x: e.clientX, y: e.clientY,
+  		//emit a user has clicked down
+  		socket.emit("mouse_down", {id: user_id, name: name, room: room,  x: e.clientX, y: e.clientY,
   		width: ctx.lineWidth, color: ctx.strokeStyle } )
-
-  	//emit a user has clicked down
-
 	};
 
 	el.onmousemove = function(e) {
-  	if (isDrawing) {
+		if (isDrawing) {
+			socket.emit("mouse_move", {x: e.clientX, y: e.clientY, id: user_id});
+		}
+		
+		
+  		//if (isDrawing && (draw_free || user_id == drawer ) ) {
+  		//this does the stroke on your own???
+    	// ctx.lineTo(e.clientX, e.clientY);
+    	// ctx.stroke();
 
-    	ctx.lineTo(e.clientX, e.clientY);
-    	ctx.stroke();
-
-    	socket.emit("mouse_move", {x: e.clientX, y: e.clientY});
-
-  	}
+    		
+  		//}
 	};
+
+	socket.on('draw_begin', function(data) {
+		//locks up canvas while others are drawing
+		//draw_free = false;
+		//console.log(draw_free);
+		console.log(data.name);
+		//show user that is drawing
+		var is_drawing = "<p class='test'>" + data.name + " is currently drawing!</p>";
+		$('.drawer').append(is_drawing);
+		drawer = data.id;
+		ctx.beginPath();
+		ctx.lineWidth = data.width;
+		ctx.strokeStyle = data.color;
+		ctx.moveTo(data.x, data.y);
+	})
+
+	socket.on('done_alert', function(data) {
+		console.log('i am here');
+		$('.test').remove();
+
+	})
+
+	/////////
+	socket.on('line', function(data) {
+		ctx.lineTo(data.x, data.y);
+		ctx.stroke();			
+	})
+
 
 	el.onmouseup = function() {
   		isDrawing = false;
+  		// if (user_id == drawer) {
+  		// 	draw_free = true;
+  		// 	console.log(draw_free)
+  		// }
+  		socket.emit("mouse_up", {id: user_id, name: name, room: room});
 
 	};
 
@@ -157,7 +218,7 @@ $(document).ready(function() {
 
   	//updates the pen color
   	$('#color').change(function() {
-  		console.log($(this).val());
+  		//console.log($(this).val());
   		penCol = $(this).val();
   	})
 
@@ -167,7 +228,7 @@ $(document).ready(function() {
 	})
 
 	$("#thick").change(function() {
-		console.log($(this).val());
+		//console.log($(this).val());
 		lineWidth = $(this).val() * 2;
 
 	})
@@ -185,7 +246,7 @@ $(document).ready(function() {
 		//save the canvas element;
 		var dataURL = el.toDataURL();
 		$("#paint").src = dataURL;
-		console.log(dataURL);
+		//console.log(dataURL);
 		$("#save_img").attr("src", dataURL);
 		$('#myModal').modal('show');
 	})

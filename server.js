@@ -3,7 +3,6 @@ var path = require('path');
 
 var bodyParser = require('body-parser');
 
-
 var app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "./static")));
@@ -25,7 +24,6 @@ app.get('/chat', function(req, res) {
 
 //This gets the server routes
 //require('./config/routes.js')(app);
-
 
 //remove user from both users and user_info array
 function removeUser(id) {
@@ -62,15 +60,25 @@ var user_info = [];
 //array of messages for each chatroom
 var chats = [];
 
+//var canvas_free = true;
+var canvas_free;
+var drawer;
+
 io.sockets.on('connection', function(socket) {
 	users.push(socket.id);
 
-	//send the socket id to the user 
-	socket.emit('socket_id', {id: socket.id});
+	socket.emit('own_id', {id: socket.id});
 
 //--------- on sign on notify everyone that a user has signed on
 	socket.on('got_a_new_user', function(data) {
+		
 		user_info.push(data);
+		//send the full array to new user
+		socket.emit('full_list_obj', {list_obj: user_info});
+
+		//for everyone else send the new 
+		socket.broadcast.emit('new_user_obj', {id: data.id, name: data.name, room: data.room});
+
 		var str = "<p class='green'>" + data.name + " has joined the chatroom.</p>";
 		
 		//on chat box to all existing users
@@ -87,7 +95,10 @@ io.sockets.on('connection', function(socket) {
 //---------- on disconnect remove from user and user_info array
 	socket.on('disconnect', function() {
 		var id = socket.id;
-		//removes from user and user_info array
+
+		//removes user from instance array
+		io.emit('splice_user', {id: id});
+
 		removeUser(id);
 		var name = removeUser_info(id);
 		var str = "<p class='red'>" + name + " has left the chatroom. </p>";
@@ -113,8 +124,6 @@ io.sockets.on('connection', function(socket) {
 
 
 
-
-
 //---------- When user logs on after other have started drawing
 //---------- Send a request to an existing user for the image string
 	if (users.length>1) {
@@ -128,13 +137,30 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on("mouse_down", function(data) {
 		console.log(data);
-		socket.broadcast.emit('draw_begin', data);
+		//cant get into here if canvas_free is false
+		if (typeof canvas_free == 'undefined' || canvas_free == true) {
+			canvas_free = false;
+			drawer = data.id;
+			//console.log(data.id)
+			//console.log(canvas_free)
+			io.emit('draw_begin', data);
+		}
 	})
 
 	socket.on("mouse_move", function(data) {
-		console.log(data);
-		socket.broadcast.emit('line', data );
+		if (drawer == data.id) {
+			io.emit('line', data);
+		}
+		
+	})
 
+	socket.on("mouse_up", function(data) {
+		if (drawer == data.id) {
+			canvas_free = true;
+			console.log('in the server!')
+			console.log(canvas_free)
+			io.emit('done_alert');
+		}
 	})
 
 	socket.on('del', function() {
