@@ -1,0 +1,27 @@
+
+.whiteboard {
+	width: 100%;
+/*	height: 200px;*/
+	border: solid gray 1px;
+}
+
+.btn {
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+
+
+
+}
+
+.break {
+	border-top: solid gray 2px;
+	margin-top: 20px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.images {
+	width: 330px;
+	height: 330px;
+}

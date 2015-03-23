@@ -24,6 +24,18 @@ function User(data) {
 	this.room = data.room;
 }
 
+//------------ canvas coordinates relative to browser window
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+}
+
+
+
+
 $(window).load(function() {
 	$('#popupModal').modal('show');
 });
@@ -88,14 +100,36 @@ $(document).ready(function() {
 	$('#enter-form').submit(function() {
 		var output = $(this).serializeArray();
 		name = output[0].value;
-		room = output[1].value;
+		//room = output[1].value;
 
 		// $('.header span').html(room);
 		$('#popupModal').modal('hide');
-		socket.emit('got_a_new_user', {id: user_id, name: name, room: room});
+		socket.emit('got_a_new_user', {id: user_id, name: name});
 
 		return false;
 	})
+
+	$('#email-form').submit(function() {
+		console.log('hello world');
+		var email = $(this).serializeArray();
+		console.log(email[0].value);
+		console.log(name);
+		//console.log(room);
+		console.log(serialize(el));
+		$('#email-modal').modal('hide');
+
+		socket.emit('email_drawing', {email: email[0].value, name: name, image: serialize(el) })
+
+
+
+		return false;
+	})
+
+
+
+
+
+
 
 	socket.on('append_logOnOff_user', function(data) {
 		//console.log('this should only go to existing users');
@@ -105,6 +139,7 @@ $(document).ready(function() {
 //----------- For users that join after drawing begins
 	socket.on('get_drawing', function() {
 		var img_code = serialize(el);
+		console.log(img_code);
 		socket.emit('return_drawing', {img: img_code });
 	})
 
@@ -140,15 +175,31 @@ $(document).ready(function() {
 	  	ctx.strokeStyle = penCol || 'black';
 	  	//ctx.stroke();
 	  	//ctx.moveTo(e.clientX, e.clientY);
+	  	var pos = getMousePos(el, e);
 
+	  	console.log('tot pos');
+	  	console.log(e.clientX);
+	  	console.log(e.clientY);
+
+
+	  	console.log('relative pos');
+	  	
+	  	posx = pos.x;
+		console.log(posx);
+	  	posy = pos.y;
+		console.log(posy);
   		//emit a user has clicked down
-  		socket.emit("mouse_down", {id: user_id, name: name, room: room,  x: e.clientX, y: e.clientY,
+  		socket.emit("mouse_down", {id: user_id, name: name,  x: posx, y: posy,
   		width: ctx.lineWidth, color: ctx.strokeStyle } )
 	};
 
 	el.onmousemove = function(e) {
 		if (isDrawing) {
-			socket.emit("mouse_move", {x: e.clientX, y: e.clientY, id: user_id});
+			var pos = getMousePos(el, e);
+			posx = pos.x;
+			posy = pos.y;
+			socket.emit("mouse_move", {x: posx, y: posy, id: user_id});
+			// socket.emit("mouse_move", {x: e.clientX, y: e.clientY, id: user_id});
 		}
 		
 		
@@ -167,8 +218,13 @@ $(document).ready(function() {
 		//console.log(draw_free);
 		console.log(data.name);
 		//show user that is drawing
-		var is_drawing = "<p class='test'>" + data.name + " is currently drawing!</p>";
-		$('.drawer').append(is_drawing);
+		// var is_drawing = "<p class='test'>" + data.name + " is currently drawing!</p>";
+		// $('.drawer').append(is_drawing);
+
+
+		var is_drawing = data.name + " is currently drawing!";
+		$('.active-drawer').html(is_drawing);
+		
 		drawer = data.id;
 		ctx.beginPath();
 		ctx.lineWidth = data.width;
@@ -178,7 +234,7 @@ $(document).ready(function() {
 
 	socket.on('done_alert', function(data) {
 		console.log('i am here');
-		$('.test').remove();
+		$('.active-drawer').html("");
 
 	})
 
@@ -195,7 +251,7 @@ $(document).ready(function() {
   		// 	draw_free = true;
   		// 	console.log(draw_free)
   		// }
-  		socket.emit("mouse_up", {id: user_id, name: name, room: room});
+  		socket.emit("mouse_up", {id: user_id, name: name});
 
 	};
 
@@ -204,7 +260,7 @@ $(document).ready(function() {
 		var arrMess = $(this).serializeArray();
 		var mess = name + ': ' + arrMess[0].value;
 		//console.log(mess);
-		socket.emit('chat', {chat: mess, user_room: room});
+		socket.emit('chat', {chat: mess});
 		$('.chat').val('');
 		return false;
 	})
@@ -222,16 +278,41 @@ $(document).ready(function() {
   		penCol = $(this).val();
   	})
 
+  	$("#brush-btn").click(function() {
+  		if (penCol = 'white') {
+  			penCol = 'black';
+  		}
+  		$('#paint').removeClass().addClass('brush_cursor')
+  	})
+
+
+
   	//updates the pen color to white
-	$("#eraser").click(function() {
+	$("#eraser-btn").click(function() {
 		penCol = 'white';
+		$('#paint').removeClass().addClass('eraser_cursor');
 	})
 
-	$("#thick").change(function() {
-		//console.log($(this).val());
-		lineWidth = $(this).val() * 2;
+	// $("#thick").change(function() {
+	// 	//console.log($(this).val());
+	// 	lineWidth = $(this).val() * 2;
+	// })
 
+	$(".size-2").click(function() {
+		lineWidth = 4;
 	})
+
+	$(".size-4").click(function() {
+		lineWidth = 8;
+	})
+
+	$(".size-6").click(function() {
+		lineWidth = 14;
+	})
+
+
+
+
 
 	//erases page
 	$("#restart").click(function() {
@@ -248,8 +329,30 @@ $(document).ready(function() {
 		$("#paint").src = dataURL;
 		//console.log(dataURL);
 		$("#save_img").attr("src", dataURL);
-		$('#myModal').modal('show');
+		$('#email-modal').modal('show');
 	})
+
+	//on email submit close the model 
+	//grab the name, email address, and url image and 
+	//do an ajax request
+
+	
+	// $('#email-form').submit(function() {
+
+	// })
+
+	// click(function() {
+	// 	console.log('email-send clicked!');
+	// 	$('#email-modal').modal('hide');
+	// 	//console.log(name);
+	// 	//console.log(serialize(el));
+	// 	$('#email-form').submit()
+
+
+	// })
+
+
+
 })
 
 
