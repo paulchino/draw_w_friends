@@ -16,12 +16,14 @@
 </head>
 	<body>	
 		<div class='container'>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='title'>
+			<div class='row title'>
+				<div class='col-md-4'>
+					<div>
 						<h2 class='inline'>draw with friends</h2>
-						<h4 class='active-drawer inline' style='opacity: 1;'></h4>
 					</div>
+				</div>
+				<div class='col-md-4'>
+					<h3 class='active-drawer inline' style='opacity: 1;'></h3>
 				</div>
 			</div>
 			<div class='row'>
@@ -40,16 +42,15 @@
 						
 					</div>
 					<div class='col-md-3'>
-						<button type="button" id='brush-btn' class='btn btn-info btn-sm' value='brush'>brush</button>						
-						<button type="button" id='eraser-btn' class='btn btn-default btn-sm' value='Eraser'>eraser</button>
-						<button type="button" id='save' class="btn btn-success btn-sm">email</button>
-						<button type="button" id='restart' class='btn btn-danger btn-sm'>start over</button>
+						<button type="button" id='brush-btn' class='btn btn-sm' value='brush'><img src="./images/brush.png" class='brush-icon'></button>						
+						<button type="button" id='eraser-btn' class='btn btn-sm' value='Eraser'><img src="./images/cursor-eraser.png" class="eraser-icon"></button>
+						<button type="button" id='save' class="btn btn-success btn-md">email</button>
+						<button type="button" id='restart' class='btn btn-danger btn-md'>start over</button>
 					</div>
 					<div class='col-md-3'>
 						<h5 class='inline'>brush color:</h5>
 						<input type='color' id='color' >
 					</div>
-
 				</div>
 			</div>
 			<div class='row'>
@@ -60,12 +61,13 @@
 				</div>
 				<div class='row'>
 					<div class='col-md-3' id='online'>
-							<p class='online-top'>online friends</p>
+							<h4 class='online-top'>currently online</h4>
+
 						<ol>
 						</ol>
 					</div>
 					<div class='col-md-3'>
-						<h3>friends chat</h3>
+						<h4 class='text-center'>friends chat</h4>
 						<div class='text-box'>
 						</div>
 					</div>
@@ -78,6 +80,12 @@
 								</div>
 							</form>
 						</div>
+					</div>
+					<div class='col-md-3'>
+						<h3 class='text-center'>submit to gallery!</h3>
+						<button type="button" class='btn btn-primary btn-block gallery-btn'>add</button>
+
+
 					</div>
 
 				</div>
@@ -123,7 +131,6 @@
 	  			</div>
 			</div>
 			<!-- end of modal -->
-
 			<!-- Modal for email drawing -->
 			<div class="modal fade modal-admin" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
@@ -133,15 +140,14 @@
 			        <h4 class="modal-title" id="myModalLabel">draw with friends</h4>
 			      </div>
 			      <div class="modal-body">
-			      	<h3>send your drawings to your friends!!!</h3>
+			      	<h2>send your drawings to your friends!!!</h2>
 
-			      	<form action='/drawing/send' method='post' id='email-form'>
-    					<label for="exampleInputEmail1">Email address</label>
-    					<input type="email" class="form-control" id="exampleInputEmail1" placeholder="example@gmail.com" name='email' value='paulchino@gmail.com'>
+			      	<form id='email-form'>
+    					<label for="exampleInputEmail1">Email address - send to 3 people max (seperate with " , " ) </label>
+    					<input type="email" class="form-control" id="inputEmail1" placeholder="example@gmail.com" name='email' value='pc.chang@rocketmail.com, paulchang04@gmail.com' multiple>
     					<input type='submit' class='btn btn-primary' value='send!'>
     				</form>
 
-    				<h5>drawing image</h5>
     				<hr>
     				<div class='img-border'>
 			      		<img id='save_img' alt="Dojo Image" />

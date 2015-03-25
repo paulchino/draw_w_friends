@@ -2,17 +2,10 @@ module.exports = function(nodemailer) {
 	transporter = nodemailer.createTransport({
 	    service: 'gmail',
 	    auth: {
-	        user: '',
-	        pass: ''
+	        user: 'paulchino@gmail.com',
+	        pass: 'Yesmes8!'
 	    }
 	});
 
-	mailOptions = {
-	    attachments: [
-	        {   // data uri as an attachment
-	        	filename: 'mypicture.png',
-	            path: ""
-	        }
-	    ]		
-	}
+
 }

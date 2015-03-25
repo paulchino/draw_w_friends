@@ -33,9 +33,6 @@ function getMousePos(canvas, evt) {
     };
 }
 
-
-
-
 $(window).load(function() {
 	$('#popupModal').modal('show');
 });
@@ -95,14 +92,26 @@ $(document).ready(function() {
 		}
 	})
 
+
+//---------- Email alerts
+	socket.on('email-error', function() {
+		alert('There was an error sending your image to one or more recipients');
+	})
+
+	socket.on('email-success', function() {
+		alert('Image sucessfuly sent!');
+	})
+
 //---------- Send back info after init form submittal
 
 	$('#enter-form').submit(function() {
 		var output = $(this).serializeArray();
-		name = output[0].value;
-		//room = output[1].value;
-
-		// $('.header span').html(room);
+		if (output[0].value !="") {
+			name = output[0].value;
+		} else {
+			name = 'anonymous user';
+		}
+		
 		$('#popupModal').modal('hide');
 		socket.emit('got_a_new_user', {id: user_id, name: name});
 
@@ -110,26 +119,13 @@ $(document).ready(function() {
 	})
 
 	$('#email-form').submit(function() {
-		console.log('hello world');
 		var email = $(this).serializeArray();
-		console.log(email[0].value);
-		console.log(name);
-		//console.log(room);
-		console.log(serialize(el));
 		$('#email-modal').modal('hide');
-
+		console.log(email);
 		socket.emit('email_drawing', {email: email[0].value, name: name, image: serialize(el) })
-
-
 
 		return false;
 	})
-
-
-
-
-
-
 
 	socket.on('append_logOnOff_user', function(data) {
 		//console.log('this should only go to existing users');
@@ -144,7 +140,6 @@ $(document).ready(function() {
 	})
 
 	socket.on('insert_drawing', function(data) {
-		//console.log(data.img);
 		deserialize(data.img, el);
 	})
 
@@ -167,29 +162,21 @@ $(document).ready(function() {
 	var lineWidth;
 	var drawer;
 
+	var canvas_free = true;
 
 	el.onmousedown = function(e) {
+		//if someone else is drawing prevent saving the properties
 	  	isDrawing = true;
-	  	//ctx.beginPath();
-	  	ctx.lineWidth = lineWidth || 6;
-	  	ctx.strokeStyle = penCol || 'black';
-	  	//ctx.stroke();
-	  	//ctx.moveTo(e.clientX, e.clientY);
+	  	if (canvas_free) {
+	  		ctx.lineWidth = lineWidth || 6;
+	  		ctx.strokeStyle = penCol || 'black';
+	  	}
+
 	  	var pos = getMousePos(el, e);
-
-	  	console.log('tot pos');
-	  	console.log(e.clientX);
-	  	console.log(e.clientY);
-
-
-	  	console.log('relative pos');
-	  	
 	  	posx = pos.x;
-		console.log(posx);
 	  	posy = pos.y;
-		console.log(posy);
   		//emit a user has clicked down
-  		socket.emit("mouse_down", {id: user_id, name: name,  x: posx, y: posy,
+  		socket.emit("mouse_down", { id: user_id, name: name,  x: posx, y: posy,
   		width: ctx.lineWidth, color: ctx.strokeStyle } )
 	};
 
@@ -199,28 +186,11 @@ $(document).ready(function() {
 			posx = pos.x;
 			posy = pos.y;
 			socket.emit("mouse_move", {x: posx, y: posy, id: user_id});
-			// socket.emit("mouse_move", {x: e.clientX, y: e.clientY, id: user_id});
-		}
-		
-		
-  		//if (isDrawing && (draw_free || user_id == drawer ) ) {
-  		//this does the stroke on your own???
-    	// ctx.lineTo(e.clientX, e.clientY);
-    	// ctx.stroke();
-
-    		
-  		//}
+		}	
 	};
 
 	socket.on('draw_begin', function(data) {
-		//locks up canvas while others are drawing
-		//draw_free = false;
-		//console.log(draw_free);
-		console.log(data.name);
-		//show user that is drawing
-		// var is_drawing = "<p class='test'>" + data.name + " is currently drawing!</p>";
-		// $('.drawer').append(is_drawing);
-
+		canvas_free = false;
 
 		var is_drawing = data.name + " is currently drawing!";
 		$('.active-drawer').html(is_drawing);
@@ -233,7 +203,8 @@ $(document).ready(function() {
 	})
 
 	socket.on('done_alert', function(data) {
-		console.log('i am here');
+		canvas_free = true;
+		console.log(canvas_free);
 		$('.active-drawer').html("");
 
 	})
@@ -247,12 +218,7 @@ $(document).ready(function() {
 
 	el.onmouseup = function() {
   		isDrawing = false;
-  		// if (user_id == drawer) {
-  		// 	draw_free = true;
-  		// 	console.log(draw_free)
-  		// }
   		socket.emit("mouse_up", {id: user_id, name: name});
-
 	};
 
 //----------------- Chat handlers
@@ -269,7 +235,6 @@ $(document).ready(function() {
 		$('.text-box').prepend(data.chat_res);
 	})
 
-
 //----------------- jquery sketch updates
 
   	//updates the pen color
@@ -285,18 +250,11 @@ $(document).ready(function() {
   		$('#paint').removeClass().addClass('brush_cursor')
   	})
 
-
-
   	//updates the pen color to white
 	$("#eraser-btn").click(function() {
 		penCol = 'white';
 		$('#paint').removeClass().addClass('eraser_cursor');
 	})
-
-	// $("#thick").change(function() {
-	// 	//console.log($(this).val());
-	// 	lineWidth = $(this).val() * 2;
-	// })
 
 	$(".size-2").click(function() {
 		lineWidth = 4;
@@ -310,16 +268,10 @@ $(document).ready(function() {
 		lineWidth = 14;
 	})
 
-
-
-
-
 	//erases page
 	$("#restart").click(function() {
 		if(confirm("Are you sure?")) {
 			socket.emit('del');
-			// ctx.clearRect(0, 0, el.width, el.height );
-			// ctx.beginPath();
 		}
 	})
 
@@ -332,26 +284,21 @@ $(document).ready(function() {
 		$('#email-modal').modal('show');
 	})
 
-	//on email submit close the model 
-	//grab the name, email address, and url image and 
-	//do an ajax request
+	$(".gallery-btn").click(function() {
+		if(confirm("submit drawing to gallery?")) {
+			//need the list of users and serialized drawing
+			var dataURL = {data: el.toDataURL()};
+			$.ajax({
+				url: "/create/",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify(dataURL)
 
-	
-	// $('#email-form').submit(function() {
-
-	// })
-
-	// click(function() {
-	// 	console.log('email-send clicked!');
-	// 	$('#email-modal').modal('hide');
-	// 	//console.log(name);
-	// 	//console.log(serialize(el));
-	// 	$('#email-form').submit()
-
-
-	// })
-
-
+			}).done(function(response) {
+				alert(response.msg);
+			});
+		}
+	})
 
 })
 

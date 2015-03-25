@@ -24,4 +24,14 @@ helper.removeUser_info = function(id) {
 	return 'user';
 }
 
+helper.email_string = function(str) {
+	var noSpace = str.replace(/ /g,"");
+	var arr = noSpace.split(",");
+	var str = "";
+	for(var i=0; i<3; i++) {
+		str += arr[i]+ ",";
+	}
+	return str = str.substring(0,str.length - 1);
+}
+
 module.exports = helper;

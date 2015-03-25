@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="./stylesheets/gallery.css">
+
+
+</head>
+	<div class='container'>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='title'>
+					<h2>draw with friends - gallery</h2>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<% for (var x in drawing) { %>
+			<div class='col-md-12'>
+				<div class='drawing-title'>
+					<h3 class='text-center'>created on</h3>
+					<h4 class='text-center'> <%= drawing[x].created %></h4>
+					<p align="center">
+						<img src="<%=drawing[x].image %>" class='drawing'>
+					</p>
+				</div>
+			</div>
+			<% } %>
+		</div>
+	</div>
+
+</html>

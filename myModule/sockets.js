@@ -1,4 +1,5 @@
 var helper = require("./helper.js");
+var nodemailer = require('nodemailer');
 
 module.exports = function(io) {
 	io.sockets.on('connection', function(socket) {
@@ -8,13 +9,39 @@ module.exports = function(io) {
 
 		socket.on('email_drawing', function(data) {
 			//console.log(data);
+			transporter = nodemailer.createTransport({
+	    		service: 'gmail',
+	    		auth: {
+	        		user: '',
+	        		pass: ''
+	    		}
+			});
+
+			var emailStr = helper.email_string(data.email);
+
+			mailOptions = {
+    			from: 'Draw With Friends ✔ <>',
+    			to: emailStr, 
+    			subject: 'draw with friends image',
+    			text: 'Hello. Attached is a drawing send from draw with friends!',
+    			attachments: [
+		        	{   // data uri as an attachment
+		        		filename: 'draw_with_friends.png',
+		            	path: ""
+		        	}
+		    		]	
+			};
+
 			mailOptions.attachments[0].path = data.image;
-			transporter.sendMail({
-			    from: 'paulchino@gmail.com',
-			    to: data.email,
-			    subject: 'draw with friends image',
-			    text: 'Hello. Attached is a drawing send from draw with friends!',
-			    attachments: mailOptions.attachments	 
+
+			transporter.sendMail(mailOptions, function(error, info) {
+				if (error) {
+					console.log(error);
+					socket.emit('email-error');
+				} else {
+					console.log('message sent: ' + info.response);
+					socket.emit('email-success');
+				}
 			});
 		})
 	//--------- on sign on notify everyone that a user has signed on
@@ -71,7 +98,6 @@ module.exports = function(io) {
 		})
 
 
-
 	//---------- When user logs on after other have started drawing
 	//---------- Send a request to an existing user for the image string
 		if (helper.users.length>1) {
@@ -96,10 +122,10 @@ module.exports = function(io) {
 		})
 
 		socket.on("mouse_move", function(data) {
+			//want to keep the properities for the same drawer
 			if (helper.drawer == data.id) {
 				io.emit('line', data);
-			}
-			
+			}	
 		})
 
 		socket.on("mouse_up", function(data) {
@@ -112,7 +138,5 @@ module.exports = function(io) {
 		socket.on('del', function() {
 			io.emit('del_all');
 		})
-
-
 	})
 }

@@ -17,15 +17,13 @@ var server = app.listen(8000, function() {
 	console.log("listening to port 8000");
 })
 
-var nodemailer = require('nodemailer');
-var transporter, mailOptions;
-require("./myModule/mail.js")(nodemailer);
+// var nodemailer = require('nodemailer');
+// var transporter, mailOptions;
+// require("./myModule/mail.js")(nodemailer);
 
 
 var io = require('socket.io').listen(server);
 require("./myModule/sockets.js")(io);
-
-
 
 
 //will require mongooe. This connects to the MongoDB

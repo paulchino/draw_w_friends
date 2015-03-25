@@ -17,6 +17,19 @@ body .container .modal-admin .modal-content {
     cursor: url("../images/brush.png") 7 35, auto;
 }
 
+#brush-btn, #eraser-btn {
+    padding: 0px;
+}
+
+.brush-icon, .eraser-icon {
+    background-color: white;
+    height: 40px;
+    width: 40px;
+}
+
+
+
+
 #sketch {
 	display: inline-block;
 }
@@ -24,8 +37,11 @@ body .container .modal-admin .modal-content {
 #online {
 	display: inline-block;
 	vertical-align: top;
-	min-width: 100px;
-	border: solid black 1px;
+	min-width: 90px;
+	border: solid gray 2px;
+    padding: 0px;
+    border-radius: 12px;
+
 	
 }
 /*canvas {
@@ -33,8 +49,12 @@ body .container .modal-admin .modal-content {
 }
 */
 .online-top {
-	background-color: gray;
-	border-bottom: solid black 1px
+	border-bottom: solid gray 2px;
+    margin: 0px;
+    padding: 10px 0 10px 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #e6e6e6; 
 }
 
 .text-box {
@@ -116,7 +136,7 @@ body .container .modal-admin .modal-content {
 	padding: 10px;
 	border: dotted black 4px;
 	border-radius: 12px;
-	margin: 0px;
+	margin: 10px 0 0 0;
 
 }
 
@@ -124,8 +144,13 @@ body .container .modal-admin .modal-content {
 	margin: 0px
 }
 
+#inputEmail1 {
+    margin: 15px 0 15px 0;
+}
+
 .nav {
-	margin-top: 10px
+	margin: 10px 0 10px
+
 }
 
 .img-border {

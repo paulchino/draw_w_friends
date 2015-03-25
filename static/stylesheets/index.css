@@ -9,9 +9,6 @@
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
-
-
-
 }
 
 .break {
@@ -24,4 +21,17 @@
 .images {
 	width: 330px;
 	height: 330px;
+}
+
+.circle-div {
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	border: 3px solid black;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.circle-text {
+	margin-top: 25px;
 }

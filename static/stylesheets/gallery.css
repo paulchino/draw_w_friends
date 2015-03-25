@@ -1,0 +1,27 @@
+.title {
+
+	padding: 10px;
+	border: dotted black 4px;
+	border-radius: 12px;
+	margin: 0px;
+}
+
+.drawing {
+	border: solid black 1px;
+	width: 800px;
+	height: 500px;
+	border-radius: 10px;
+}
+
+.drawing-title {
+	border: solid black 3px;
+	margin: 30px;
+	border-radius: 10px;
+}
+
+
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
