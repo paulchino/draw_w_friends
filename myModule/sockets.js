@@ -10,10 +10,10 @@ module.exports = function(io) {
 		socket.on('email_drawing', function(data) {
 			//console.log(data);
 			transporter = nodemailer.createTransport({
-	    		service: 'gmail',
+	    		service: 'gmail', // enter service provider (ie gmail)
 	    		auth: {
-	        		user: '',
-	        		pass: ''
+	        		user: '', // enter email
+	        		pass: '' // enter password
 	    		}
 			});
 
@@ -89,7 +89,12 @@ module.exports = function(io) {
 
 	//------------ Chat Sockets
 		socket.on('chat', function(data) {
-			var mess = "<p class='chat'>" + data.chat + "</p>";
+			//data.chat is the message.
+			//prevent cross site
+			var chat = helper.htmlEscape(data.chat);
+			console.log(chat);
+
+			var mess = "<p class='chat'>" + chat + "</p>";
 			//var user_room = data.user_room;
 			//console.log(mess);
 			//console.log(user_room);
@@ -135,8 +140,8 @@ module.exports = function(io) {
 			}
 		})
 
-		socket.on('del', function() {
-			io.emit('del_all');
+		socket.on('del', function(data) {
+			io.emit('del_all', data);
 		})
 	})
 }

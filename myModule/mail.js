@@ -1,11 +1,13 @@
-module.exports = function(nodemailer) {
-	transporter = nodemailer.createTransport({
-	    service: 'gmail',
-	    auth: {
-	        user: 'paulchino@gmail.com',
-	        pass: 'Yesmes8!'
-	    }
-	});
+//Remove file
+
+// module.exports = function(nodemailer) {
+// 	transporter = nodemailer.createTransport({
+// 	    service: 'gmail',
+// 	    auth: {
+// 	        user: 'paulchino@gmail.com',
+// 	        pass: 'Yesmes8!'
+// 	    }
+// 	});
 
 
-}
+// }

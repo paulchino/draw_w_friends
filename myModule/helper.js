@@ -34,4 +34,11 @@ helper.email_string = function(str) {
 	return str = str.substring(0,str.length - 1);
 }
 
+helper.htmlEscape = function(text) {
+	return text.replace(/&/g, '&amp;').
+	replace(/</g, '&lt;').  // it's not neccessary to escape >
+	replace(/"/g, '&quot;').
+	replace(/'/g, '&#039;');
+}
+
 module.exports = helper;

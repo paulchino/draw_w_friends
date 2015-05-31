@@ -144,10 +144,19 @@ $(document).ready(function() {
 	})
 
 //------------
-	
-	socket.on('del_all', function() {
+		//erases page
+	$("#restart").click(function() {
+		//console.log(name);
+		if(confirm("Are you sure?")) {
+			socket.emit('del', {name: name});
+		}
+	})
+
+	socket.on('del_all', function(data) {
+		//console.log(data);
 		ctx.clearRect(0, 0, el.width, el.height );
 		ctx.beginPath();
+		alert(data.name + " has reset the drawing!");
 	})
 
 //------------ Canvas elements/brush properties
@@ -268,12 +277,7 @@ $(document).ready(function() {
 		lineWidth = 14;
 	})
 
-	//erases page
-	$("#restart").click(function() {
-		if(confirm("Are you sure?")) {
-			socket.emit('del');
-		}
-	})
+
 
 	$("#save").click(function() {
 		//save the canvas element;
