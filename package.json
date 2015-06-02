@@ -1,6 +1,9 @@
 {
   "name": "draw_with_friends",
   "version": "0.0.1",
+  "engines": {
+    "node": "0.12.4"
+  },
   "dependencies": {
     "body-parser": "^1.12.0",
     "ejs": "^2.3.1",
