@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 //var helper = require("./myModule/helper.js");
 require("./config/routes.js")(app);
 
-var server = app.listen(8000, function() {
+var server = app.listen(process.env.PORT || 8000, function() {
 	console.log("listening to port 8000");
 })
 
