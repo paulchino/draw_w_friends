@@ -1,0 +1,297 @@
+h1, h2, h3, h4, h5 {
+    display: inline-block;
+}
+
+/**/
+#title_div {
+    padding: 10px;
+    border: dotted black 4px;
+    border-radius: 12px;
+    margin: 10px 0 0 0;
+    height: 60px;
+    width: 1200px;
+}
+
+.title {
+    margin:0px;
+    display: inline-block;
+}
+
+.active-drawer {
+    margin:0px;
+    margin-left: 40px;
+}
+
+#nav {
+    width: 1200px;
+    height:50px;
+/*    border: solid 2px black;*/
+    border-bottom: solid 1px gray;
+    margin-top: 5px;
+/*    margin: 10px;*/
+}
+
+.brush_eraser {
+    margin-left: 30px;
+    display: inline-block;
+}
+
+.brush_size {
+/*  */
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.brush_size h4 {
+    display: inline-block;
+}
+
+.cir-btn {
+/*    border: 1px solid blue;*/
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    vertical-align: top;
+}
+
+    .cir {
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        border-radius: 25px; 
+        display: inline-block;
+        background-color: black;
+        margin: 0 5px 0 5px;
+    /*    vertical-align: top;*/
+    }
+
+    .circle2 {
+        width: 10px;
+        height: 10px;
+    }
+
+    .circle4 {
+        width: 20px;
+        height: 20px;
+    }
+
+    .circle6 {
+        width: 30px;
+        height: 30px;
+    }
+
+    .size-2 {
+        margin-top: 10px;
+    }
+
+    .size-4 {
+        margin-top: 5px;
+        padding-top: 3px;
+    }
+
+    .size-6 {
+        padding-top: 4px;
+    }
+
+.brush_color {
+    display: inline-block;
+/*    border: solid 2px green;*/
+    margin-left: 20px;
+}
+
+.brush_color_div {
+    display: inline-block;
+    margin-left: 20px;
+/*    border: solid 2px yellow;*/
+}
+
+.color {
+    display: inline-block;
+}
+
+.color_sq {
+    width: 50px;
+    height:30px;
+    border: 1px solid gray;
+    border-radius: 12px;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+    .black {
+        background-color: black;
+    }
+
+    .red {
+        background-color: red;
+    }
+
+    .blue {
+        background-color: blue;
+    }
+
+    .green {
+        background-color: green;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+
+.email_over_div {
+    display: inline-block;
+/*    border: solid 1px purple;*/
+    margin-left: 180px;
+}
+
+#save {
+    margin-right: 10px;
+}
+
+
+
+
+
+/*----------------*/
+
+body .container .modal-admin .modal-content {
+    width: 850px;
+ 
+}
+
+#paint {
+    border: solid #ccc 2px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.eraser_cursor {
+    cursor: url("../images/cursor-eraser.png") 10 10, auto;
+}
+
+.brush_cursor {
+    cursor: url("../images/brush.png") 7 35, auto;
+}
+
+#brush-btn, #eraser-btn {
+    padding: 0px;
+}
+
+.brush-icon, .eraser-icon {
+    background-color: white;
+    height: 40px;
+    width: 40px;
+}
+
+#sketch {
+	display: inline-block;
+}
+
+#online {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 90px;
+	border: solid gray 2px;
+    padding: 0px;
+    border-radius: 12px;
+
+	
+}
+
+.online-top {
+	border-bottom: solid gray 2px;
+    margin: 0px;
+    padding: 10px 0 10px 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #e6e6e6; 
+}
+
+.text-box {
+	border: solid black 3px;
+	border-radius: 7px;
+	height: 250px;
+	overflow-y: scroll;
+	margin-bottom: 15px;
+}
+
+.green {
+	color: green;
+}
+
+.red {
+	color: red;
+}
+
+.inline {
+	display: inline-block;
+}
+
+
+
+
+#color {
+	margin: 8px
+}
+
+.active-drawer {
+    /*margin-top: 3px;*/
+    -webkit-animation: glow .5s infinite alternate;
+}
+
+.chat {
+	margin: 0 5px 0 5px;
+	font-size: 12px
+}
+
+/*.title {
+
+	padding: 10px;
+	border: dotted black 4px;
+	border-radius: 12px;
+	margin: 10px 0 0 0;
+
+}
+*/
+/*.title .inline {
+	margin: 0px
+}*/
+
+#inputEmail1 {
+    margin: 15px 0 15px 0;
+}
+
+.nav {
+	margin: 10px 0 10px
+
+}
+
+.img-border {
+	border: solid gray 1px;
+}
+
+
+
+@-webkit-keyframes glow {
+    to {
+        text-shadow: 0 0 10px green;
+    }
+}
+
+@-moz-keyframes glow {
+    to {
+        text-shadow: 0 0 10px green;
+    }
+}
+
+@-o-keyframes glow {
+    to {
+        text-shadow: 0 0 10px green;
+    }
+}
+
+@keyframes glow {
+    to {
+        text-shadow: 0 0 10px green;
+    }
+}

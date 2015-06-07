@@ -2,19 +2,24 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script src="./javascript/app.js"></script>
-	<link rel="stylesheet" type="text/css" href="./stylesheets/chat.css">
-
+	<link rel="stylesheet" type="text/css" href="./stylesheets/draw.css">
 </head>
 	<body>	
 		<div class='container'>
-			<div class='row title'>
+			<div class="row">
+				<div id="title_div">
+					<h2 class="title">Draw with friends</h2>
+					<h3 class='active-drawer inline' style='opacity: 1;'></h3>					
+				</div>
+			</div>
+
+<!-- 			<div class='row title'>
 				<div class='col-md-4'>
 					<div>
 						<h2 class='inline'>draw with friends</h2>
@@ -22,6 +27,51 @@
 				</div>
 				<div class='col-md-4'>
 					<h3 class='active-drawer inline' style='opacity: 1;'></h3>
+				</div>
+			</div> -->
+
+
+
+			<div class="row">
+				<div id="nav">
+					<!-- brush and eraser -->
+					<div class="brush_eraser">
+						<button type="button" id='brush-btn' class='btn btn-sm' value='brush'><img src="./images/brush.png" class='brush-icon'></button>						
+						<button type="button" id='eraser-btn' class='btn btn-sm' value='Eraser'><img src="./images/cursor-eraser.png" class="eraser-icon"></button>	
+					</div>
+					<div class="brush_size">
+						<h4>brush/eraser size:</h4>
+						<button class='cir-btn size-2'>
+							<div class='cir circle2'></div>
+						</button>
+						<button class='cir-btn size-4'>
+							<div class='cir circle4'></div>
+						</button>
+						<button class='cir-btn size-6'>
+							<div class='cir circle6'></div>
+						</button>
+					</div>
+					<div class="brush_color_div">
+						<h4>brush color:</h4>
+						<div class="color">
+							<!-- no need to make button -->
+							<div class="color_sq black">
+							</div>
+							<div class="color_sq red">
+							</div>
+							<div class="color_sq blue">
+							</div>
+							<div class="color_sq green">
+							</div>
+							<div class="color_sq yellow">
+							</div>
+						</div>
+					</div>
+					<div class="email_over_div">
+						<button type="button" id='save' class="btn btn-success btn-md">email</button>
+						<button type="button" id='restart' class='btn btn-danger btn-md'>start over</button>
+					</div>
+
 				</div>
 			</div>
 			<div class='row'>
