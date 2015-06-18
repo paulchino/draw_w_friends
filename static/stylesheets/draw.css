@@ -94,19 +94,6 @@ h1, h2, h3, h4, h5 {
         margin-top: 3px;
     }
 
-/*    .size-2 {
-        margin-top: 10px;
-    }*/
-
-/*    .size-4 {
-        margin-top: 5px;
-        padding-top: 3px;
-    }
-
-    .size-6 {
-        padding-top: 4px;
-    }*/
-
 .brush_color {
     display: inline-block;
 /*    border: solid 2px green;*/
@@ -161,9 +148,10 @@ h1, h2, h3, h4, h5 {
 
 #save {
     margin-right: 10px;
+    margin-left: 10px
 }
 
-#save a {
+#gall_btn a {
     text-decoration: none;
     color: white;
 }
@@ -176,7 +164,11 @@ h1, h2, h3, h4, h5 {
 
 body .container .modal-admin .modal-content {
     width: 850px;
- 
+    margin: 0 auto;
+}
+
+.modal-dialog_1 {
+    width: auto;
 }
 
 #paint {

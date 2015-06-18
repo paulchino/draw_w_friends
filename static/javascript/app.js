@@ -35,7 +35,12 @@ function getMousePos(canvas, evt) {
 }
 
 $(window).load(function() {
+	// $('#popupModal').modal({
+	// 	backdrop: 'static',
+	// 	keyboard: false
+	// })
 	$('#popupModal').modal('show');
+
 });
 
 $(document).ready(function() {
