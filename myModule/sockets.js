@@ -46,6 +46,9 @@ module.exports = function(io) {
 		})
 	//--------- on sign on notify everyone that a user has signed on
 		socket.on('got_a_new_user', function(data) {
+			if (data.name == undefined) {
+				data.name == "anonymous";
+			}
 			
 			helper.user_info.push(data);
 			//send the full array to new user

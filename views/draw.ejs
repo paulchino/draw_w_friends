@@ -2,39 +2,27 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="./stylesheets/draw.css">
+<!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script src="./javascript/app.js"></script>
-	<link rel="stylesheet" type="text/css" href="./stylesheets/draw.css">
+
 </head>
 	<body>	
 		<div class='container'>
 			<div class="row">
 				<div id="title_div">
 					<h2 class="title">Draw with friends</h2>
-					<h3 class='active-drawer inline' style='opacity: 1;'></h3>					
+					<h3 class='active-drawer inline' style='opacity: 1;'></h3>
 				</div>
 			</div>
 
-<!-- 			<div class='row title'>
-				<div class='col-md-4'>
-					<div>
-						<h2 class='inline'>draw with friends</h2>
-					</div>
-				</div>
-				<div class='col-md-4'>
-					<h3 class='active-drawer inline' style='opacity: 1;'></h3>
-				</div>
-			</div> -->
-
-
-
-			<div class="row">
+			<div class="row tools">
 				<div id="nav">
-					<!-- brush and eraser -->
 					<div class="brush_eraser">
 						<button type="button" id='brush-btn' class='btn btn-sm' value='brush'><img src="./images/brush.png" class='brush-icon'></button>						
 						<button type="button" id='eraser-btn' class='btn btn-sm' value='Eraser'><img src="./images/cursor-eraser.png" class="eraser-icon"></button>	
@@ -54,27 +42,22 @@
 					<div class="brush_color_div">
 						<h4>brush color:</h4>
 						<div class="color">
-							<!-- no need to make button -->
-							<div class="color_sq black">
-							</div>
-							<div class="color_sq red">
-							</div>
-							<div class="color_sq blue">
-							</div>
-							<div class="color_sq green">
-							</div>
-							<div class="color_sq yellow">
-							</div>
+							<button value="black" class="color_sq black"></button>
+							<button value="red" class="color_sq red_col"></button>
+							<button value="blue" class="color_sq blue"></button>
+							<button value="green" class="color_sq green_col"></button>
+							<button value="yellow" class="color_sq yellow"></button>
 						</div>
 					</div>
 					<div class="email_over_div">
+						<button type="button" id='save' class="btn btn-info btn-md"><a href="/gallery">view gallery</a></button>
 						<button type="button" id='save' class="btn btn-success btn-md">email</button>
 						<button type="button" id='restart' class='btn btn-danger btn-md'>start over</button>
 					</div>
-
 				</div>
 			</div>
-			<div class='row'>
+
+<!-- 			<div class='row'>
 				<div class='nav'>
 					<div class='col-md-3'>
 						<h5 class='inline'>brush/eraser size: </h5>
@@ -87,7 +70,6 @@
 						<button class='cir-btn size-6'>
 							<div id='circle6'></div>
 						</button>
-						
 					</div>
 					<div class='col-md-3'>
 						<button type="button" id='brush-btn' class='btn btn-sm' value='brush'><img src="./images/brush.png" class='brush-icon'></button>						
@@ -100,7 +82,7 @@
 						<input type='color' id='color' >
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class='row'>
 				<div class='col-md-9'>
 					<div id="sketch">
@@ -110,7 +92,6 @@
 				<div class='row'>
 					<div class='col-md-3' id='online'>
 							<h4 class='online-top'>currently online</h4>
-
 						<ol>
 						</ol>
 					</div>
@@ -132,33 +113,14 @@
 					<div class='col-md-3'>
 						<h3 class='text-center'>submit to gallery!</h3>
 						<button type="button" class='btn btn-primary btn-block gallery-btn'>add</button>
-
-
 					</div>
-
 				</div>
 			</div>
-
-<!-- 			<div class='row'>
-				<div class='col-md-12'>
-					Line Thickness 
-					<select id='thick'>
-						<option value='1'>1</option>
-						<option value='2'>2</option>
-						<option selected='selected' value='3'>3</option>
-						<option value='4'>4</option>
-						<option value='5'>5</option>
-					</select>
-				</div>
-			</div> -->
-
-
 			<!-- Modal on site load -->
-			<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="popupModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  			<div class="modal-dialog">
 	    			<div class="modal-content">
 	      				<div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					        <h4 class="modal-title" id="myModalLabel">Please Enter Name</h4>
 	      				</div>
 	      				<div class="modal-body">
@@ -167,50 +129,40 @@
 					    			<label for="Name">Enter Name</label>
 					    			<input type="text" name='name' class="form-control" id="username" placeholder="Enter Name">
 					  			</div>
-<!-- 					  			<select name ='room' class="form-control">
-					  				<option value='room1'>Room 1</option>
-					  				<option value='room2'>Room 2</option>
-									<option value='room3'>Room 3</option>
-								</select> -->
 					  			<button type="submit" class="btn btn-default">Enter</button>
 							</form>
 	      				</div>
 	    			</div>
 	  			</div>
 			</div>
-			<!-- end of modal -->
+			<!-- end of on site modal -->
+
 			<!-- Modal for email drawing -->
 			<div class="modal fade modal-admin" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">draw with friends</h4>
+			        <h2 class="modal-title" id="myModalLabel">Send Your Drawing to Friends!!!</h2>
 			      </div>
 			      <div class="modal-body">
-			      	<h2>send your drawings to your friends!!!</h2>
-
-			      	<form id='email-form'>
-			      		<h2>Note - Email feature has been disabled.</h2>
+					<h3>Note - Email feature has been disabled. Visit <a href="https://github.com/paulchino/draw_w_friends">github</a> for code.</h3>
+			      	<form id='email-form'>		
     					<label for="exampleInputEmail1">Email address - send to 3 people max (seperate with " , " ) </label>
     					<input type="email" class="form-control" id="inputEmail1" placeholder="example@gmail.com" name='email' multiple>
     					<input type='submit' class='btn btn-primary' value='send!'>
     				</form>
-
     				<hr>
     				<div class='img-border'>
 			      		<img id='save_img' alt="Dojo Image" />
 			      	</div>
 			      </div>
 			      <div class="modal-footer">
-<!-- 			      		<button class="btn btn-primary email-send" value='send!'>Send!</button> -->
-
 			      </div>
 			    </div>
 			  </div>
 			</div>
-			<!-- End of Modal -->
-
+			<!-- End of Email Modal -->
 		</div> <!-- end of container -->
 	</body>
 </html>

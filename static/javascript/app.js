@@ -1,6 +1,6 @@
 //---------- function to get existing drawings for a new user
 
-//----Global Array
+//---------- Global Array
 var instances = [];
 
 function serialize(canvas) {
@@ -17,7 +17,8 @@ function deserialize(data, canvas) {
 	img.src = data;
 }
 
-//Creating user class
+//----------  Creating user class
+
 function User(data) {
 	this.id = data.id;
 	this.name = data.name;
@@ -46,12 +47,12 @@ $(document).ready(function() {
 	})
 
 //---------- OPP for users
+
 	//recieve the full users array
 	socket.on('full_list_obj', function(data) {
-		console.log('full array');
+		//console.log('full array');
 		//console.log(data.list_obj);
 		for(var i=0;i<data.list_obj.length; i++) {
-
 			instances.push(new User(data.list_obj[i]));
 		}
 		console.log(instances);
@@ -143,17 +144,14 @@ $(document).ready(function() {
 		deserialize(data.img, el);
 	})
 
-//------------
-		//erases page
+//------------ erases page
 	$("#restart").click(function() {
-		//console.log(name);
 		if(confirm("Are you sure?")) {
 			socket.emit('del', {name: name});
 		}
 	})
 
 	socket.on('del_all', function(data) {
-		//console.log(data);
 		ctx.clearRect(0, 0, el.width, el.height );
 		ctx.beginPath();
 		alert(data.name + " has reset the drawing!");
@@ -182,6 +180,7 @@ $(document).ready(function() {
 	  	}
 
 	  	var pos = getMousePos(el, e);
+	  	console.log(pos);
 	  	posx = pos.x;
 	  	posy = pos.y;
   		//emit a user has clicked down
@@ -215,20 +214,27 @@ $(document).ready(function() {
 		canvas_free = true;
 		console.log(canvas_free);
 		$('.active-drawer').html("");
-
 	})
 
-	/////////
 	socket.on('line', function(data) {
 		ctx.lineTo(data.x, data.y);
 		ctx.stroke();			
 	})
 
-
-	el.onmouseup = function() {
+	//on ANY mouseup event free up the drawing. Somewhat buggy
+	$('html').mouseup(function() {
+		console.log('mouseup');
   		isDrawing = false;
-  		socket.emit("mouse_up", {id: user_id, name: name});
-	};
+  		socket.emit("mouse_up", {id: user_id, name: name});		
+	})
+
+
+	// el.onmouseup = function() {
+ //  		isDrawing = false;
+ //  		socket.emit("mouse_up", {id: user_id, name: name});
+	// };
+
+
 
 //----------------- Chat handlers
 	$('#form').submit(function() {
@@ -246,11 +252,18 @@ $(document).ready(function() {
 
 //----------------- jquery sketch updates
 
+	//update the pen color
+	$(".color_sq").click(function() {
+		penCol = $(this).val();
+		//console.log($(this).attr("value"));
+		//penCol = $(this).val();
+	})
+	
   	//updates the pen color
-  	$('#color').change(function() {
-  		//console.log($(this).val());
-  		penCol = $(this).val();
-  	})
+  	// $('#color').change(function() {
+  	// 	//console.log($(this).val());
+  	// 	penCol = $(this).val();
+  	// })
 
   	$("#brush-btn").click(function() {
   		if (penCol = 'white') {
@@ -277,8 +290,6 @@ $(document).ready(function() {
 		lineWidth = 14;
 	})
 
-
-
 	$("#save").click(function() {
 		//save the canvas element;
 		var dataURL = el.toDataURL();
@@ -303,7 +314,6 @@ $(document).ready(function() {
 			});
 		}
 	})
-
 })
 
 
