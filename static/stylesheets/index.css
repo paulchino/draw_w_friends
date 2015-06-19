@@ -1,26 +1,35 @@
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
 
-.whiteboard {
-	width: 100%;
-/*	height: 200px;*/
-	border: solid gray 1px;
+.container {
+    max-width: none !important;
+    width: 1200px;
+}
+
+.title {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#btn_div {
+	margin-top: 15px;
+	text-align: right;
+
 }
 
 .btn {
-	margin-top: 50px;
-	margin-left: auto;
-	margin-right: auto;
+	display: block;
+	max-width: 150px;
+	margin-bottom: 15px;
 }
 
 .break {
 	border-top: solid gray 2px;
 	margin-top: 20px;
 	padding-top: 30px;
-	padding-bottom: 30px;
-}
-
-.images {
-	width: 330px;
-	height: 330px;
+	padding-bottom: 20px;
+	border-bottom: solid gray 2px;
 }
 
 .circle-div {
@@ -33,5 +42,21 @@
 }
 
 .circle-text {
-	margin-top: 25px;
+	line-height: 94px;
+	vertical-align: middle;
+	text-align: center;
 }
+
+.gitHub {
+    margin-left: 10px;
+}
+
+.logos {
+	margin-top: 10px;
+}
+.twitter {
+    max-width: 40px;
+    height: auto;
+    margin-left: 10px;
+}
+

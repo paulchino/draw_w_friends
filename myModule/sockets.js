@@ -98,9 +98,6 @@ module.exports = function(io) {
 			console.log(chat);
 
 			var mess = "<p class='chat'>" + chat + "</p>";
-			//var user_room = data.user_room;
-			//console.log(mess);
-			//console.log(user_room);
 			helper.chats.push(mess);
 			io.emit('chat_res', {chat_res: mess});
 		})
@@ -123,8 +120,6 @@ module.exports = function(io) {
 			if (typeof helper.canvas_free == 'undefined' || helper.canvas_free == true) {
 				helper.canvas_free = false;
 				helper.drawer = data.id;
-				//console.log(data.id)
-				//console.log(canvas_free)
 				io.emit('draw_begin', data);
 			}
 		})

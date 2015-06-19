@@ -3,8 +3,6 @@ var Drawing = require("../models/Drawing.js");
 var drawingController = {};
 
 drawingController.add = function(req,res) {
-	console.log("drawing controller");
-	//console.log(req.body);
 	var drawing = new Drawing({image: req.body.data});
 	drawing.save(function(err) {
 		if(err) {
@@ -18,7 +16,6 @@ drawingController.add = function(req,res) {
 }
 
 drawingController.showAll = function(req,res) {
-
 	Drawing.find({}).sort({created: 'desc'}).exec(function(err,data) {
 		if (err) {
 			console.log("There was an error displaying drawings");

@@ -19,9 +19,6 @@ module.exports = function(app) {
 	})
 
 	app.post('/create/', function(req, res) {
-		//console.log(req);
 		drawingController.add(req,res);
-		//req.body
-		//send to the controller
 	})
 }

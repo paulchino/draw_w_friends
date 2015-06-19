@@ -35,10 +35,6 @@ function getMousePos(canvas, evt) {
 }
 
 $(window).load(function() {
-	// $('#popupModal').modal({
-	// 	backdrop: 'static',
-	// 	keyboard: false
-	// })
 	$('#popupModal').modal('show');
 
 });
@@ -55,19 +51,17 @@ $(document).ready(function() {
 
 	//recieve the full users array
 	socket.on('full_list_obj', function(data) {
-		//console.log('full array');
-		//console.log(data.list_obj);
 		for(var i=0;i<data.list_obj.length; i++) {
 			instances.push(new User(data.list_obj[i]));
 		}
-		console.log(instances);
+		//console.log(instances);
 	})
 
 	socket.on('new_user_obj', function(data) {
-		console.log('the new user');
-		console.log(data);
+		//console.log('the new user');
+		//console.log(data);
 		instances.push(new User(data));
-		console.log(instances);
+		//console.log(instances);
 	})
 
 	socket.on('splice_user', function(data) {
@@ -90,11 +84,9 @@ $(document).ready(function() {
 
 //---------- Updates the list of people online and on in chatbox
 	socket.on('update_list', function(data) {
-		//console.log('Logged on users');
 		$('#online ol').empty();
 		for(var i = 0; i < data.user_info.length; i++) {
 			$('#online ol').append("<li>" + data.user_info[i].name + "</li>");
-			//console.log(data.user_info[i].name);
 		}
 	})
 
@@ -134,7 +126,6 @@ $(document).ready(function() {
 	})
 
 	socket.on('append_logOnOff_user', function(data) {
-		//console.log('this should only go to existing users');
 		$('.text-box').prepend(data.append_user);
 	})
 
@@ -164,7 +155,6 @@ $(document).ready(function() {
 
 //------------ Canvas elements/brush properties
 	var el = document.getElementById('paint');
-	//console.log(serialize(el));
 	var ctx = el.getContext('2d');
 	ctx.lineWidth = 6;
   	ctx.lineJoin = ctx.lineCap = 'round';
@@ -188,7 +178,6 @@ $(document).ready(function() {
 	  	console.log(pos);
 	  	posx = pos.x;
 	  	posy = pos.y;
-  		//emit a user has clicked down
   		socket.emit("mouse_down", { id: user_id, name: name,  x: posx, y: posy,
   		width: ctx.lineWidth, color: ctx.strokeStyle } )
 	};
@@ -233,14 +222,6 @@ $(document).ready(function() {
   		socket.emit("mouse_up", {id: user_id, name: name});		
 	})
 
-
-	// el.onmouseup = function() {
- //  		isDrawing = false;
- //  		socket.emit("mouse_up", {id: user_id, name: name});
-	// };
-
-
-
 //----------------- Chat handlers
 	$('#form').submit(function() {
 		var arrMess = $(this).serializeArray();
@@ -260,15 +241,7 @@ $(document).ready(function() {
 	//update the pen color
 	$(".color_sq").click(function() {
 		penCol = $(this).val();
-		//console.log($(this).attr("value"));
-		//penCol = $(this).val();
 	})
-	
-  	//updates the pen color
-  	// $('#color').change(function() {
-  	// 	//console.log($(this).val());
-  	// 	penCol = $(this).val();
-  	// })
 
   	$("#brush-btn").click(function() {
   		if (penCol = 'white') {
@@ -277,7 +250,6 @@ $(document).ready(function() {
   		$('#paint').removeClass().addClass('brush_cursor')
   	})
 
-  	//updates the pen color to white
 	$("#eraser-btn").click(function() {
 		penCol = 'white';
 		$('#paint').removeClass().addClass('eraser_cursor');
@@ -299,7 +271,6 @@ $(document).ready(function() {
 		//save the canvas element;
 		var dataURL = el.toDataURL();
 		$("#paint").src = dataURL;
-		//console.log(dataURL);
 		$("#save_img").attr("src", dataURL);
 		$('#email-modal').modal('show');
 	})
