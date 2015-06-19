@@ -2,16 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./stylesheets/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./stylesheets/draw.css">
-	<link rel="stylesheet" type="text/css" href="./stylesheets/normalize.css">
-<!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./stylesheets/normalize.css">	
+	<script src="./javascript/jquery-2.1.4.min.js"></script>	
+	<script src="./javascript/bootstrap.min.js"></script>
 	<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script src="./javascript/app.js"></script>
-
 </head>
 	<body>	
 		<div class='container'>
@@ -19,6 +16,10 @@
 				<div id="title_div">
 					<h2 class="title">Draw with friends</h2>
 					<h3 class='active-drawer inline' style='opacity: 1;'></h3>
+					<div id="logos">
+						<a href="https://github.com/paulchino/draw_w_friends"><img class="gitHub" src="./images/gitHub.png"></a>
+						<a href="https://twitter.com/p__chang"><img class="twitter" src="./images/TwitterLogo.png"></a>
+					</div>
 				</div>
 			</div>
 
@@ -57,33 +58,6 @@
 					</div>
 				</div>
 			</div>
-
-<!-- 			<div class='row'>
-				<div class='nav'>
-					<div class='col-md-3'>
-						<h5 class='inline'>brush/eraser size: </h5>
-						<button class='cir-btn size-2'>
-							<div id='circle2'></div>
-						</button>
-						<button class='cir-btn size-4'>
-							<div id='circle4'></div>
-						</button>
-						<button class='cir-btn size-6'>
-							<div id='circle6'></div>
-						</button>
-					</div>
-					<div class='col-md-3'>
-						<button type="button" id='brush-btn' class='btn btn-sm' value='brush'><img src="./images/brush.png" class='brush-icon'></button>						
-						<button type="button" id='eraser-btn' class='btn btn-sm' value='Eraser'><img src="./images/cursor-eraser.png" class="eraser-icon"></button>
-						<button type="button" id='save' class="btn btn-success btn-md">email</button>
-						<button type="button" id='restart' class='btn btn-danger btn-md'>start over</button>
-					</div>
-					<div class='col-md-3'>
-						<h5 class='inline'>brush color:</h5>
-						<input type='color' id='color' >
-					</div>
-				</div>
-			</div> -->
 			<div class='row'>
 				<div class='col-md-9'>
 					<div id="sketch">
@@ -96,10 +70,9 @@
 						<ol>
 						</ol>
 					</div>
-					<div class='col-md-3'>
+					<div class='col-md-3 no_left_pad'>
 						<h4 class='text-center'>friends chat</h4>
-						<div class='text-box'>
-						</div>
+						<div class='text-box'></div>
 					</div>
 					<div class='col-md-3'>
 						<div class='mess-box'>
@@ -165,10 +138,6 @@
 			</div> <!-- End of Email Modal -->
 		</div> <!-- end of container -->
 	</body>
-
-
-
-
 </html>
 
 

@@ -1,27 +1,72 @@
-.title {
+h1, h2, h3, h4, h5 {
+    margin: 0px;
+}
 
-	padding: 10px;
-	border: dotted black 4px;
-	border-radius: 12px;
-	margin: 0px;
+.container {
+    max-width: none !important;
+    width: 1200px;
+}
+
+#title_div {
+    border: dotted black 4px;
+    padding-left: 10px;
+    border-radius: 12px;
+    margin: 10px 0 0 0;
+    height: 60px;
+    width: 1200px;
+    position: relative;
+}
+
+/*------- Logo Links--------*/
+#logos {
+    display: inline-block;
+    position: absolute;
+    line-height: 51px;
+    right: 0;
+}
+
+#back_btn a {
+    text-decoration: none;
+    color: white;
+}
+
+.gitHub {
+    margin-left: 10px;
+}
+
+.twitter {
+    max-width: 40px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.title {
+    margin:0px;
+    display: inline-block;
+    line-height: 52px;
+    vertical-align: middle;
 }
 
 .drawing {
-	border: solid black 1px;
+	border: solid gray 1px;
 	width: 800px;
 	height: 500px;
-	border-radius: 10px;
+	border-radius: 5px;
+	display: block;
+	margin: 0 auto 0 auto;
 }
 
-.drawing-title {
-	border: solid black 3px;
-	margin: 30px;
-	border-radius: 10px;
+.drawing-box {
+	margin-bottom: 15px;
+	padding-bottom: 20px;
+	border-bottom: solid 2px gray;
 }
-
 
 .center {
-     float: none;
-     margin-left: auto;
-     margin-right: auto;
+	text-align: center;
+	padding: 5px;
+}
+
+.underline {
+	text-decoration: underline;
 }

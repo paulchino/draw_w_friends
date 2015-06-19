@@ -2,9 +2,25 @@ h1, h2, h3, h4, h5 {
     display: inline-block;
 }
 
-/**/
+.container {
+    max-width: none !important;
+    width: 1200px;
+}
+
+/*------- Logo Links--------*/
+#logos {
+    display: inline-block;
+    float: right;
+    line-height: 52px;
+}
+
+.twitter {
+    max-width: 40px;
+    height: auto;
+    margin-left: 10px;
+}
+
 #title_div {
-/*    padding: 10px;*/
     border: dotted black 4px;
     padding-left: 10px;
     border-radius: 12px;
@@ -34,10 +50,8 @@ h1, h2, h3, h4, h5 {
 #nav {
     width: 1200px;
     height:50px;
-/*    border: solid 2px black;*/
     border-bottom: solid 1px gray;
     margin-top: 5px;
-/*    margin: 10px;*/
 }
 
 .brush_eraser {
@@ -46,7 +60,6 @@ h1, h2, h3, h4, h5 {
 }
 
 .brush_size {
-/*  */
     display: inline-block;
     margin-left: 20px;
 }
@@ -56,14 +69,12 @@ h1, h2, h3, h4, h5 {
 }
 
 .cir-btn {
-/*    border: 1px solid blue;*/
     padding: 0;
     margin: 0;
     background-color: white;
     vertical-align: top;
     height: 40px;
     width: 40px;
-/*    border: none;*/
     border-radius: 4px;
 }
 
@@ -73,8 +84,6 @@ h1, h2, h3, h4, h5 {
         border-radius: 25px; 
         display: inline-block;
         background-color: black;
-        /*margin: 0 5px 0 5px;*/
-    /*    vertical-align: top;*/
     }
 
     .circle2 {
@@ -96,14 +105,12 @@ h1, h2, h3, h4, h5 {
 
 .brush_color {
     display: inline-block;
-/*    border: solid 2px green;*/
     margin-left: 20px;
 }
 
 .brush_color_div {
     display: inline-block;
     margin-left: 20px;
-/*    border: solid 2px yellow;*/
 }
 
 .color {
@@ -142,7 +149,6 @@ h1, h2, h3, h4, h5 {
 
 .email_over_div {
     display: inline-block;
-/*    border: solid 1px purple;*/
     margin-left: 60px;
 }
 
@@ -155,10 +161,6 @@ h1, h2, h3, h4, h5 {
     text-decoration: none;
     color: white;
 }
-
-
-
-
 
 /*----------------*/
 
@@ -206,8 +208,6 @@ body .container .modal-admin .modal-content {
 	border: solid gray 2px;
     padding: 0px;
     border-radius: 12px;
-
-	
 }
 
 .online-top {
@@ -240,15 +240,11 @@ body .container .modal-admin .modal-content {
 	display: inline-block;
 }
 
-
-
-
 #color {
 	margin: 8px
 }
 
 .active-drawer {
-    /*margin-top: 3px;*/
     -webkit-animation: glow .5s infinite alternate;
 }
 
@@ -256,19 +252,6 @@ body .container .modal-admin .modal-content {
 	margin: 0 5px 0 5px;
 	font-size: 12px
 }
-
-/*.title {
-
-	padding: 10px;
-	border: dotted black 4px;
-	border-radius: 12px;
-	margin: 10px 0 0 0;
-
-}
-*/
-/*.title .inline {
-	margin: 0px
-}*/
 
 #inputEmail1 {
     margin: 15px 0 15px 0;
@@ -282,8 +265,6 @@ body .container .modal-admin .modal-content {
 .img-border {
 	border: solid gray 1px;
 }
-
-
 
 @-webkit-keyframes glow {
     to {
