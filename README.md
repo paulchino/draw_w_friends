@@ -1,4 +1,3 @@
 #draw_w_friends
-### Group drawing program using node/express/socket.io. Includes group chat features and saving of the group drawings. 
 
-
+Web application where multiple users can draw together in real­time. Users can also communicate with each other through chat using sockets. When a user is satisfied with the final drawing they can either email to friends or save the drawing to the Draw with Friends Gallery. Deployed using Heroku. Technologies Used: Node/Express, EJS, Socket.io, nodeMailer, MongoDB/Mongoose, jQuery, Bootstrap
