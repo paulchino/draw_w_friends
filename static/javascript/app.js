@@ -1,10 +1,6 @@
-//remove room variables
-
-$(window).load(function() {
-	$('#popupModal').modal('show');
-});
-
 $(document).ready(function() {
+	$('#popupModal').modal('show');
+
 	var helper_functions = {
 		serialize: function(canvas) {
 			return canvas.toDataURL();
@@ -38,70 +34,68 @@ $(document).ready(function() {
 
 //---------- SOCKETS
 	(function(socket) {
+	//1. ON SIGNON
+		//recieves own socket id back from server
 		socket.on('own_id', function(data) {
 			user_id = data.id;
-		});
+		});	
 
-		//recieve the full users array
+		//list of online users is recieved
 		socket.on('full_list_obj', function(data) {
-			for(var i=0;i<data.list_obj.length; i++) {
+			for(var i = 0; i < data.list_obj.length; i++) {
 				instances.push(new helper_functions.User(data.list_obj[i]));
 			}
-			console.log('is this used?');
 			console.log(instances);
 		});
 
+		//recieves the chat history
+		socket.on('get_messages', function(data) {
+			var strMess = '';
+			for(var i = data.chats.length-1; i>=0; i--) strMess += data.chats[i];
+			$('.text-box').append(strMess);
+		});
+
+		//drawing data from the first user
+		socket.on('insert_drawing', function(data) {
+			helper_functions.deserialize(data.img, el);
+		});
+
+	//2. EXISTING USERS	
+		//receives info about new user
 		socket.on('new_user_obj', function(data) {
 			instances.push(new helper_functions.User(data));
 		});
 
-		socket.on('splice_user', function(data) {
-			for (var i=0; i<instances.length; i++) {
-				if (data.id == instances[i].id) {
-					instances.splice(i, 1);
-					console.log(instances);
-				}
-			}
+		//---- direct toward first person in the drawing
+		socket.on('get_drawing', function() {
+			var img_code = helper_functions.serialize(el);
+			socket.emit('return_drawing', {img: img_code });
 		});
 
-		socket.on('get_messages', function(data) {
-			var strMess = '';
-			for(var i = data.chats.length-1; i>=0; i--) {
-				strMess += data.chats[i];
-			}
-			$('.text-box').append(strMess);
-		});
-
-		//----------------   TEMPLATE HERE!!!!!
+		//update who is online (add template)
 		socket.on('update_list', function(data) {
 			$('#online ol').empty();
 			for(var i = 0; i < data.user_info.length; i++) {
 				$('#online ol').append("<li>" + data.user_info[i].name + "</li>");
 			}
 		});
+		//on disconnect remove instances
+		socket.on('remove_user', function(data) {
+			for (var i = 0; i < instances.length; i++) {
+				if (data.id == instances[i].id) {
+					instances.splice(i,1);
+				}
+			}
+			$('.text-box').prepend(data.message);
+		})
 
-		//---------- Email alerts
-		socket.on('email-error', function() {
-			alert('There was an error sending your image to one or more recipients');
-		});
-
-		socket.on('email-success', function() {
-			alert('Image sucessfuly sent!');
-		});
-
-		socket.on('append_logOnOff_user', function(data) {
-			$('.text-box').prepend(data.append_user);
-		});
-
-		//----------- For users that join after drawing begins
-		socket.on('get_drawing', function() {
-			var img_code = helper_functions.serialize(el);
-			console.log(img_code);
-			socket.emit('return_drawing', {img: img_code });
-		});
-
-		socket.on('insert_drawing', function(data) {
-			helper_functions.deserialize(data.img, el);
+	//3. EMAIL OR SAVE DRAWING
+		socket.on('email_success', function(data) {
+			var message;
+			data.success ? 
+			message = "Email successfully sent!" : 
+			message = "There was an error sending your image to one or more recipients";
+			alert(message);
 		});
 
 		socket.on('del_all', function(data) {
@@ -143,6 +137,9 @@ $(document).ready(function() {
 
 //------- SOCKET METHODS	
 	var event_sockets = {
+		new_user: function(name) {
+			socket.emit('got_a_new_user', {id: user_id, name: name});
+		},		
 		mouse_down: function(pos) {
 	  		socket.emit("mouse_down", { id: user_id, name: name, 
 	  			x: pos.x, y: pos.y, width: ctx.lineWidth, 
@@ -154,9 +151,6 @@ $(document).ready(function() {
 		mouse_up: function() {
 			canvas_state.isDrawing = false;
 			socket.emit("mouse_up", {id: user_id, name: name});
-		},
-		new_user: function(name) {
-			socket.emit('got_a_new_user', {id: user_id, name: name});
 		},
 		email_drawing: function(email) {
 			socket.emit('email_drawing', {email: email[0].value, name: name, image: helper_functions.serialize(el) });
